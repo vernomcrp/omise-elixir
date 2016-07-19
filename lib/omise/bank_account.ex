@@ -21,6 +21,7 @@ defmodule Omise.BankAccount do
   def check_type(%{"brand" => _}) do
     Omise.ThaiBankAccount
   end
+  
   def check_type(%{"bank_code" => _, "branch_code" => _, "account_type" => _}) do
     Omise.JapaneseBankAccount
   end
@@ -32,11 +33,11 @@ defmodule Omise.BankAccount do
     def decode(%{bank_account: bank_account} = object, _) do
       bank_account_attributes =
         bank_account
-        |> Enum.map(fn({k,v}) -> {String.to_atom(k), v} end)
-        |> Enum.into(%{})
+        |> Enum.into(%{}, fn({k,v}) -> {String.to_atom(k), v} end)
 
       %{object | bank_account: struct(Omise.BankAccount.check_type(bank_account), bank_account_attributes)}
     end
+
     def decode(object, _) do
       object
     end

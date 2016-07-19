@@ -11,7 +11,14 @@ defmodule Omise.Mixfile do
       start_permanent: Mix.env == :prod,
       deps:            deps,
       package:         package,
-      docs:            [extras: ["README.md"]]
+      docs:            [extras: ["README.md"]],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        "coveralls": :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -37,7 +44,8 @@ defmodule Omise.Mixfile do
       {:poison, "~> 2.2"},
       {:earmark, "~> 0.2.1", only: :dev},
       {:ex_doc, "~> 0.12.0", only: :dev},
-      {:mock, "~> 0.1.3", only: :test}
+      {:mock, "~> 0.1.3", only: :test},
+      {:excoveralls, "~> 0.5", only: :test}
     ]
   end
 
